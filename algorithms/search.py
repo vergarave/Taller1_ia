@@ -28,38 +28,26 @@ def depthFirstSearch(problem: SearchProblem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-        # 1) Estructura LIFO para DFS
-    frontier = utils.Stack()
+    lifo=utils.Stack()
+    estado_inicial= problem.getStartState()
 
-    # 2) Estado inicial
-    start_state = problem.getStartState()
-
-    # Si ya estamos en la meta, no hacemos ningún movimiento
-    if problem.isGoalState(start_state):
+    if problem.isGoalState(estado_inicial):
         return []
 
-    # 3) Conjunto de visitados para evitar ciclos/repeticiones
-    visited = set()
-    visited.add(start_state)
+    visited=set()
+    visited.add(estado_inicial)
+    lifo.push((estado_inicial, []))
 
-    # Cada elemento de la frontera será: (estado_actual, lista_acciones_hasta_aca)
-    frontier.push((start_state, []))
-
-    # 4) Bucle principal de DFS
-    while not frontier.isEmpty():
-        state, actions = frontier.pop()
-
-        # Si llegamos a la meta, devolvemos el plan (lista de movimientos)
-        if problem.isGoalState(state):
+    while not lifo.isEmpty():
+        estado,actions = lifo.pop()
+        if problem.isGoalState(estado):
             return actions
 
-        # Expandimos sucesores: (nextState, action, stepCost)
-        for next_state, action, step_cost in problem.getSuccessors(state):
-            if next_state not in visited:
-                visited.add(next_state)
-                frontier.push((next_state, actions + [action]))
-
-    # Si no hay solución (no debería pasar en mapas válidos), devolvemos vacío
+        for sig, action, cost in problem.getSuccessors(estado):
+            if sig not in visited:
+                visited.add(sig)
+                lifo.push((sig,actions + [action]))
+    
     return []
 
 
@@ -67,8 +55,27 @@ def breadthFirstSearch(problem: SearchProblem):
     """
     Search the shallowest nodes in the search tree first.
     """
-    # TODO: Add your code here
-    utils.raiseNotDefined()
+    fifo=utils.Queue()
+    estado_inicial= problem.getStartState()
+
+    if problem.isGoalState(estado_inicial):
+        return []
+
+    visited=set()
+    visited.add(estado_inicial)
+    fifo.push((estado_inicial, []))
+
+    while not fifo.isEmpty():
+        estado,actions = fifo.pop()
+        if problem.isGoalState(estado):
+            return actions
+    
+        for sig, action, cost in problem.getSuccessors(estado):
+            if sig not in visited:
+                visited.add(sig)
+                fifo.push((sig,actions + [action]))
+    
+    return []
 
 
 def uniformCostSearch(problem: SearchProblem):

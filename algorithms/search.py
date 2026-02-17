@@ -28,8 +28,39 @@ def depthFirstSearch(problem: SearchProblem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    # TODO: Add your code here
-    utils.raiseNotDefined()
+        # 1) Estructura LIFO para DFS
+    frontier = utils.Stack()
+
+    # 2) Estado inicial
+    start_state = problem.getStartState()
+
+    # Si ya estamos en la meta, no hacemos ningún movimiento
+    if problem.isGoalState(start_state):
+        return []
+
+    # 3) Conjunto de visitados para evitar ciclos/repeticiones
+    visited = set()
+    visited.add(start_state)
+
+    # Cada elemento de la frontera será: (estado_actual, lista_acciones_hasta_aca)
+    frontier.push((start_state, []))
+
+    # 4) Bucle principal de DFS
+    while not frontier.isEmpty():
+        state, actions = frontier.pop()
+
+        # Si llegamos a la meta, devolvemos el plan (lista de movimientos)
+        if problem.isGoalState(state):
+            return actions
+
+        # Expandimos sucesores: (nextState, action, stepCost)
+        for next_state, action, step_cost in problem.getSuccessors(state):
+            if next_state not in visited:
+                visited.add(next_state)
+                frontier.push((next_state, actions + [action]))
+
+    # Si no hay solución (no debería pasar en mapas válidos), devolvemos vacío
+    return []
 
 
 def breadthFirstSearch(problem: SearchProblem):

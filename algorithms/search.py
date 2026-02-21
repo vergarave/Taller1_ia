@@ -82,10 +82,58 @@ def uniformCostSearch(problem: SearchProblem):
     """
     Search the node of least total cost first.
     """
+    # VERSIÓN INICIAL:
+    # El problema principal era que se llamaba problem.isGoalState() sin pasarle
+    # ningún estado. Esta función no devuelve el estado objetivo, sino que recibe
+    # un estado y retorna True/False indicando si se llegó al objetivo.
+    # Además, la comparación estado_inicial == estado_final era redundante
+    # y no estaba hecha correctamente.
+    #
+    # estado_inicial = problem.getStartState()
+    # estado_final = problem.isGoalState()
+    # pq = utils.PriorityQueue()
+    # if estado_inicial == estado_final:
+    #     return []
+    # visited = set()
+    # pq.push((estado_inicial, [], 0), 0)
+    # while not pq.isEmpty():
+    #     state, actions, cost = pq.pop()
+    #     if problem.isGoalState(state):
+    #         return actions
+    #     for next_state, action, nextCost in problem.getSuccessors(state):
+    #         new_cost = cost + nextCost
+    #         pq.push((next_state, actions + [action], new_cost), new_cost)
+    # return []
+    #
+    # PROMPT usado con Claude:
+    # "Esta función tiene errores, ayudame a corregirla y optimizarla"
+    #
+    # CORRECCIÓN de la IA:
+    # isGoalState no retorna el estado goal sino True/False dado un estado.
+    # La verificación se hace con problem.isGoalState(estado_inicial).
+    # Se agregó visited para evitar expandir el mismo nodo múltiples veces,
+    # lo cual puede colgar el programa en mapas grandes con ciclos.
 
-    # TODO: Add your code here
-    utils.raiseNotDefined()
+    pq = utils.PriorityQueue()
+    estado_inicial = problem.getStartState()
+    pq.push((estado_inicial, [], 0), 0)
+    visited = set()
 
+    while not pq.isEmpty():
+        state, actions, costo = pq.pop()
+
+        if state in visited:
+            visited.add(state)
+
+        if problem.isGoalState(state):
+            return actions
+
+        for next, action, nextCost in problem.getSuccessors(state):
+            if next not in visited:
+                newCost = costo + nextCost
+                pq.push((next, actions + [action], newCost), newCost)
+
+    return []
 
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """

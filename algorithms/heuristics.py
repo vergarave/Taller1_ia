@@ -75,7 +75,7 @@ def mst_cost_prim(nodos):
     # El error era comparar solo contra el último nodo agregado. Prim requiere
     # buscar la arista mínima desde CUALQUIER nodo ya en el árbol hacia
     # cualquier nodo fuera. 
-    
+
     n = len(nodos)
     if n <= 1:
         return 0
@@ -86,30 +86,7 @@ def mst_cost_prim(nodos):
     while len(visitados) < n:
         mejor_costo = float("inf")
         mejor_nodo = None
-         # Correcion de Claude
         for u in visitados:         
-            for v in nodos:
-                if v not in visitados:
-                    c = manhattanDistance(u, v)
-                    if c < mejor_costo:
-                        mejor_costo = c
-                        mejor_nodo = v
-        visitados.add(mejor_nodo)
-        costo_total += mejor_costo
-
-    return costo_total
-    
-    n = len(nodos)
-    if n <= 1:
-        return 0
-    
-    visitados = {nodos[0]}
-    costo_total = 0
-
-    while len(visitados) < n:
-        mejor_costo = float("inf")
-        mejor_nodo = None
-        for u in visitados:
             for v in nodos:
                 if v not in visitados:
                     c = manhattanDistance(u, v)

@@ -122,16 +122,16 @@ def uniformCostSearch(problem: SearchProblem):
     while not pq.isEmpty():
         state, actions, costo = pq.pop()
 
-        if state in visited:
+        if state not in visited:
             visited.add(state)
 
-        if problem.isGoalState(state):
-            return actions
+            if problem.isGoalState(state):
+                return actions
 
-        for next, action, nextCost in problem.getSuccessors(state):
-            if next not in visited:
-                newCost = costo + nextCost
-                pq.push((next, actions + [action], newCost), newCost)
+            for next, action, nextCost in problem.getSuccessors(state):
+                if next not in visited:
+                    newCost = costo + nextCost
+                    pq.push((next, actions + [action], newCost), newCost)
 
     return []
 

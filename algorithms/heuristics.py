@@ -16,7 +16,6 @@ def manhattanHeuristic(state, problem):
     """
     The Manhattan distance heuristic.
     """
-    # TODO: Add your code here
     x, y = state
     xg, yg = problem.goal
     return abs(xg - x) + abs(yg - y)
@@ -26,7 +25,6 @@ def euclideanHeuristic(state, problem):
     """
     The Euclidean distance heuristic.
     """
-    # TODO: Add your code here
     x, y = state
     xg, yg = problem.goal
     return math.sqrt((xg - x) ** 2 + (yg - y) ** 2)

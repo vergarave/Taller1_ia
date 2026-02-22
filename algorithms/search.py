@@ -108,7 +108,7 @@ def uniformCostSearch(problem: SearchProblem):
     # PROMPT usado con Claude:
     # "Esta función tiene errores, ayudame a corregirla y optimizarla"
     #
-    # CORRECCIÓN de la IA:
+    # CORRECCIÓN:
     # isGoalState no retorna el estado goal sino True/False dado un estado.
     # La verificación se hace con problem.isGoalState(estado_inicial).
     # Se agregó visited para evitar expandir el mismo nodo múltiples veces,
